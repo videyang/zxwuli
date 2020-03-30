@@ -1,252 +1,208 @@
-<!DOCTYPE HTML>
-<!--
-	Editorial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
+<!DOCTYPE html>
 <html>
+
 	<head>
-		<title>Editorial by HTML5 UP</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
+		<title>A-Frame简明教程</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="css/index.min.css">
+		<style>
+			html,
+			body {
+				margin: 0;
+				height: 100%;
+				background-color: #043A4F;
+			}
+			
+			h1,
+			h3 {
+				position: fixed;
+				z-index: 10;
+				color: white;
+				margin: 0;
+				padding: 0;
+				text-align: left;
+			}
+			
+			h1 {
+				left: 6vw;
+				top: 20vw;
+				font-size: 6vw;
+				line-height: 6vw;
+				font-weight: 200;
+				font-family: 'Comfortaa', sans-serif;
+			}
+			
+			h3 {
+				left: 6vw;
+				top: 27vw;
+				font-size: 2.4vw;
+				opacity: 0.8;
+				padding: 5px 9px;
+				font-weight: 200;
+				display: inline-block;
+			}
+			
+			.svgs {
+				width: 100%;
+				height: 44vw;
+				position: absolute;
+				top: 0;
+				z-index: 50;
+			}
+			
+			.svgs .button {
+				position: absolute;
+				bottom: 0vw;
+				left: 6vw;
+				width: 20vw;
+				height: 6vw;
+				font-size: 3vw;
+				letter-spacing: .3vw;
+				background-color: #e53935;
+				border: 0;
+				border-radius: 4px;
+				z-index: 1;
+				color: white;
+				font-family: 'Comfortaa', sans-serif;
+				font-weight: 300;
+				-webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+				box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+				-webkit-transform: skew(-20deg);
+				transform: skew(-20deg);
+			}
+			
+			.svgs .button span {
+				-webkit-transform: skew(20deg);
+				transform: skew(20deg);
+				display: block;
+			}
+			
+			.svg {
+				width: 100%;
+				height: 46vw;
+			}
+			
+			.scene--full {
+				position: fixed;
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
 	</head>
-	<body class="is-preload">
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+	<body>
+		<div class="svgs">
+			<h1>A-Frame简明教程</h1>
+			<h3><img src="https://mozvr.com/static/img/logo.svg" alt="" style="vertical-align: middle;"  />荣誉出品的A-Frame之沉浸式、在线互动体验教程</h3>
+			<a class="button" href="index2.html"><span>开始学习</span></a>
+			<img src="img/X.svg" class="svg" />
+			<canvas class="scene scene--full" id="scene"></canvas>
+		</div>
+		<script src="js/three.min.js"></script>
+		<script src="js/perlin.js"></script>
+		<script src="js/TweenMax.min.js"></script>
+		<script type="text/javascript">
+			setTimeout(() => document.body.classList.add('render'), 60);
 
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
+			var canvas = document.querySelector('canvas');
+			var width = canvas.offsetWidth,
+				height = canvas.offsetHeight;
 
-							<!-- Header -->
-								<header id="header">
-									<a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
-									<ul class="icons">
-										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-										<li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
-									</ul>
-								</header>
+			var renderer = new THREE.WebGLRenderer({
+				canvas: canvas,
+				antialias: true,
+				alpha: true
+			});
+			renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
+			renderer.setSize(width, height);
+			renderer.setClearColor(0x000000, 0);
 
-							<!-- Banner -->
-								<section id="banner">
-									<div class="content">
-										<header>
-											<h1>Hi, I’m Editorial<br />
-											by HTML5 UP</h1>
-											<p>A free and fully responsive site template</p>
-										</header>
-										<p>Aenean ornare velit lacus, ac varius enim ullamcorper eu. Proin aliquam facilisis ante interdum congue. Integer mollis, nisl amet convallis, porttitor magna ullamcorper, amet egestas mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id euismod egestas. Pellentesque sapien ac quam. Lorem ipsum dolor sit nullam.</p>
-										<ul class="actions">
-											<li><a href="#" class="button big">Learn More</a></li>
-										</ul>
-									</div>
-									<span class="image object">
-										<img src="images/pic10.jpg" alt="" />
-									</span>
-								</section>
+			var scene = new THREE.Scene();
 
-							<!-- Section -->
-								<section>
-									<header class="major">
-										<h2>Erat lacinia</h2>
-									</header>
-									<div class="features">
-										<article>
-											<span class="icon fa-gem"></span>
-											<div class="content">
-												<h3>Portitor ullamcorper</h3>
-												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											</div>
-										</article>
-										<article>
-											<span class="icon solid fa-paper-plane"></span>
-											<div class="content">
-												<h3>Sapien veroeros</h3>
-												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											</div>
-										</article>
-										<article>
-											<span class="icon solid fa-rocket"></span>
-											<div class="content">
-												<h3>Quam lorem ipsum</h3>
-												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											</div>
-										</article>
-										<article>
-											<span class="icon solid fa-signal"></span>
-											<div class="content">
-												<h3>Sed magna finibus</h3>
-												<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											</div>
-										</article>
-									</div>
-								</section>
+			var camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
+			camera.position.set(0, 0, 350);
 
-							<!-- Section -->
-								<section>
-									<header class="major">
-										<h2>Ipsum sed dolor</h2>
-									</header>
-									<div class="posts">
-										<article>
-											<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
-											<h3>Interdum aenean</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
-											<h3>Nulla amet dolore</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
-											<h3>Tempus ullamcorper</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
-											<h3>Sed etiam facilis</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
-											<h3>Feugiat lorem aenean</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
-											<h3>Amet varius aliquam</h3>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-											<ul class="actions">
-												<li><a href="#" class="button">More</a></li>
-											</ul>
-										</article>
-									</div>
-								</section>
+			var sphere = new THREE.Group();
+			scene.add(sphere);
+			var material = new THREE.LineBasicMaterial({
+				color: 0xffffff
+			});
+			var linesAmount = 18;
+			var radius = 100;
+			var verticesAmount = 50;
+			for(var j = 0; j < linesAmount; j++) {
+				var index = j;
+				var geometry = new THREE.Geometry();
+				geometry.y = (index / linesAmount) * radius * 2;
+				for(var i = 0; i <= verticesAmount; i++) {
+					var vector = new THREE.Vector3();
+					vector.x = Math.cos(i / verticesAmount * Math.PI * 2);
+					vector.z = Math.sin(i / verticesAmount * Math.PI * 2);
+					vector._o = vector.clone();
+					geometry.vertices.push(vector);
+				}
+				var line = new THREE.Line(geometry, material);
+				sphere.add(line);
+			}
 
-						</div>
-					</div>
+			function updateVertices(a) {
+				for(var j = 0; j < sphere.children.length; j++) {
+					var line = sphere.children[j];
+					
+					line.geometry.y += 0.3;
+					if(line.geometry.y > radius * 2) {
+						line.geometry.y = 0;
+					}
+					var radiusHeight = Math.sqrt(line.geometry.y * (2 * radius - line.geometry.y));
+					for(var i = 0; i <= verticesAmount; i++) {
+						var vector = line.geometry.vertices[i];
+						var ratio = noise.simplex3(vector.x * 0.009, vector.z * 0.009 + a * 0.0006, line.geometry.y * 0.009) * 15;
+						vector.copy(vector._o);
+						vector.multiplyScalar(radiusHeight + ratio);
+						vector.y = line.geometry.y - radius;
+					}
+					line.geometry.verticesNeedUpdate = true;
+				}
+			}
 
-				<!-- Sidebar -->
-					<div id="sidebar">
-						<div class="inner">
+			function render(a) {
+				requestAnimationFrame(render);
+				updateVertices(a);
+				renderer.render(scene, camera);
+			}
 
-							<!-- Search -->
-								<section id="search" class="alt">
-									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
-									</form>
-								</section>
+			function onResize() {
+				canvas.style.width = '';
+				canvas.style.height = '';
+				width = canvas.offsetWidth;
+				height = canvas.offsetHeight;
+				camera.aspect = width / height;
+				camera.updateProjectionMatrix();
+				renderer.setSize(width, height);
+			}
 
-							<!-- Menu -->
-								<nav id="menu">
-									<header class="major">
-										<h2>Menu</h2>
-									</header>
-									<ul>
-										<li><a href="index.html">Homepage</a></li>
-										<li><a href="generic.html">Generic</a></li>
-										<li><a href="elements.html">Elements</a></li>
-										<li>
-											<span class="opener">Submenu</span>
-											<ul>
-												<li><a href="#">Lorem Dolor</a></li>
-												<li><a href="#">Ipsum Adipiscing</a></li>
-												<li><a href="#">Tempus Magna</a></li>
-												<li><a href="#">Feugiat Veroeros</a></li>
-											</ul>
-										</li>
-										<li><a href="#">Etiam Dolore</a></li>
-										<li><a href="#">Adipiscing</a></li>
-										<li>
-											<span class="opener">Another Submenu</span>
-											<ul>
-												<li><a href="#">Lorem Dolor</a></li>
-												<li><a href="#">Ipsum Adipiscing</a></li>
-												<li><a href="#">Tempus Magna</a></li>
-												<li><a href="#">Feugiat Veroeros</a></li>
-											</ul>
-										</li>
-										<li><a href="#">Maximus Erat</a></li>
-										<li><a href="#">Sapien Mauris</a></li>
-										<li><a href="#">Amet Lacinia</a></li>
-									</ul>
-								</nav>
+			var mouse = new THREE.Vector2(0.8, 0.5);
 
-							<!-- Section -->
-								<section>
-									<header class="major">
-										<h2>Ante interdum</h2>
-									</header>
-									<div class="mini-posts">
-										<article>
-											<a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-										<article>
-											<a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
-											<p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-										</article>
-									</div>
-									<ul class="actions">
-										<li><a href="#" class="button">More</a></li>
-									</ul>
-								</section>
+			function onMouseMove(e) {
+				mouse.y = e.clientY / window.innerHeight;
+				TweenMax.to(sphere.rotation, 2, {
+					x: (mouse.y * 1),
+					ease: Power1.easeOut
+				});
+			}
 
-							<!-- Section -->
-								<section>
-									<header class="major">
-										<h2>Get in touch</h2>
-									</header>
-									<p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-									<ul class="contact">
-										<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-										<li class="icon solid fa-phone">(000) 000-0000</li>
-										<li class="icon solid fa-home">1234 Somewhere Road #8254<br />
-										Nashville, TN 00000-0000</li>
-									</ul>
-								</section>
-
-							<!-- Footer -->
-								<footer id="footer">
-									<p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-								</footer>
-
-						</div>
-					</div>
-
-			</div>
-
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
-
+			requestAnimationFrame(render);
+			window.addEventListener("mousemove", onMouseMove);
+			var resizeTm;
+			window.addEventListener("resize", function() {
+				resizeTm = clearTimeout(resizeTm);
+				resizeTm = setTimeout(onResize, 200);
+			});
+		</script>
 	</body>
+
 </html>
